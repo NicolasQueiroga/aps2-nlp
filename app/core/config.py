@@ -63,12 +63,12 @@ class Settings(BaseSettings):
             self._sentence_model = SentenceTransformer(model_name).to(self._device)
         return self._sentence_model
 
-    def get_autoencoder(self, model_name="all-MiniLM-L6-v2.pth", embeddings_size=384):
+    def get_autoencoder(self, model_name="all-MiniLM-L6-v2", embeddings_size=384):
         if self._autoencoder is None:
             self._autoencoder = EmbeddingAutoencoder(input_dim=embeddings_size).to(self._device)
-            if not os.path.exists(f"{self.embedding_models_path}{model_name}"):
-                raise FileNotFoundError(f"Model file {self.embedding_models_path}{model_name} not found.")
-            self._autoencoder.load_state_dict(torch.load(self.embedding_models_path + model_name, map_location=self._device))
+            if not os.path.exists(f"{self.embedding_models_path}{model_name}.pth"):
+                raise FileNotFoundError(f"Model file {self.embedding_models_path}{model_name}.pth not found.")
+            self._autoencoder.load_state_dict(torch.load(f"{self.embedding_models_path}{model_name}.pth", map_location=self._device))
             self._autoencoder.eval()
         return self._autoencoder
 

@@ -140,5 +140,5 @@ def train_autoencoder(model_name: str = "all-MiniLM-L6-v2", embeddings_size: int
         logger.info(f"Epoch {epoch+1}/{epochs}, Loss: {loss.item():.4f}")
 
 
-    torch.save(autoencoder.state_dict(), f"{settings.embedding_models_path}{model_name}.pth")
+    torch.save(autoencoder.state_dict(), f"{settings.embedding_models_path}{settings.sentence_transformer_models[model_name][0]}.pth")
 
