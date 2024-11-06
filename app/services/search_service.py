@@ -9,12 +9,17 @@ class SearchService:
     def __init__(self, model_setup: Tuple[str, str]):
         self.embedding_service = EmbeddingService(model_setup)
 
-    async def search_games(self, query: str, top_k: int, db: AsyncSession) -> List[SteamGame]:
+    async def search_games(
+        self, query: str, top_k: int, threshold: float, db: AsyncSession
+    ) -> List[SteamGame]:
         query_embedding_tensor = self.embedding_service.encode_texts([query])
-        fine_tuned_query = self.embedding_service.fine_tune_embeddings(query_embedding_tensor)
+        fine_tuned_query = self.embedding_service.fine_tune_embeddings(
+            query_embedding_tensor
+        )
 
         stmt = (
             select(SteamGame)
+            .where(1 - SteamGame.embedding.cosine_distance(fine_tuned_query[0]) < 0.5)
             .order_by(SteamGame.embedding.cosine_distance(fine_tuned_query[0]))
             .limit(top_k)
         )
