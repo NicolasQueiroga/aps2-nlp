@@ -28,7 +28,21 @@ class SetupModelResponse(BaseModel):
 async def setup_model(
     request: SetupModelRequest, db: AsyncSession = Depends(get_db)
 ) -> SetupModelResponse:
-    """ """
+    """
+    Train the needed model for the application.
+
+    Args:
+    - request: SetupModelRequest - The model to be trained.
+    - db: AsyncSession - The database session.
+
+    Returns:
+    - SetupModelResponse - The response message.
+
+    Raises:
+    - HTTPException: If the model is already downloaded.
+    - HTTPException: If the model is not found.
+    """
+
     if f"{settings.sentence_transformer_models[request.model][0]}.pth" in os.listdir(
         settings.embedding_models_path
     ):
