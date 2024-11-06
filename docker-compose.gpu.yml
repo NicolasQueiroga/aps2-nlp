@@ -1,6 +1,8 @@
 services:
   api:
-    build: Dockerfile.gpu
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
     container_name: api
     command: >
       sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --reload"
