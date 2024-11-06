@@ -13,7 +13,6 @@ from app.database.models import Base
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings.get_sentence_model()
-    settings.get_autoencoder()
     yield
 
 app = FastAPI(
