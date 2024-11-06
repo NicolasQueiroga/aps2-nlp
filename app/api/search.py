@@ -127,7 +127,7 @@ async def search_games(
             result = await db.execute(stmt)
             api_setup = result.scalars().first()
 
-            if not api_setup.active:
+            if not api_setup or not api_setup.active:
                 await change_database_embedding(
                     db, settings.sentence_transformer_models[model_name]
                 )
