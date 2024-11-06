@@ -90,7 +90,7 @@ These results suggest that the system performs best with well-defined, genre-spe
 
 ### Model Setup and Dynamic Deployment
 
-The FastAPI application includes a `/setup-model` endpoint that allows users to select and train an embedding model from a predefined list (e.g., `MiniLM-L6-v2`, `MPNet-base-v2`, `BERT-base-NLI`). This endpoint checks if the chosen model’s parameters are already saved on the server. If they are, it raises an error indicating that the model is already available. Otherwise, it initiates training with an autoencoder, which fine-tunes the model’s embeddings specifically for the Steam games dataset, enhancing their relevance and compactness. By saving only the optimized parameters (e.g., as `.pth` files), we enable efficient storage management and easy model switching without uploading large files to GitHub.
+The FastAPI application, accessible at [http://10.103.0.28:8000](http://10.103.0.28:8000), includes a `/setup-model` endpoint that allows users to select and train an embedding model from a predefined list (e.g., `MiniLM-L6-v2`, `MPNet-base-v2`, `BERT-base-NLI`). This endpoint checks if the chosen model’s parameters are already saved on the server. If they are, it raises an error indicating that the model is already available. Otherwise, it initiates training with an autoencoder, which fine-tunes the model’s embeddings specifically for the Steam games dataset, enhancing their relevance and compactness. By saving only the optimized parameters (e.g., as `.pth` files), we enable efficient storage management and easy model switching without uploading large files to GitHub.
 
 ### Fast Search and Efficient Embedding Storage
 
@@ -156,4 +156,7 @@ async def search_games(
 
     return games
 ```
----
+
+### Testing the API
+
+To test the API, navigate to [http://10.103.0.28:8000/docs](http://10.103.0.28:8000/docs), where the interactive Swagger UI documentation is available. This interface allows you to test the `/setup-model` and `/search` endpoints directly, making it easy to input various queries and see the results in real-time.
