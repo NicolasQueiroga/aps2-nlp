@@ -70,11 +70,6 @@ async def search_games(
     top_k: int = Query(
         10, example=5, description="The number of top results to return."
     ),
-    threshold: float = Query(
-        0.5,
-        example=0.5,
-        description="The cosine similarity threshold to consider a game as similar.",
-    ),
     model_name: str = Query(
         "MiniLM-L6-v2",
         example="MiniLM-L6-v2",
@@ -94,7 +89,6 @@ async def search_games(
     **Parameters:**
     - `query` (str): The search term to look for in the game database.
     - `top_k` (int): The number of top results to return.
-    - `threshold` (float): The cosine similarity threshold to consider a game as similar.
     - `model` (str): The model to use for generating embeddings. Check the available models in the documentation.
     - `db` (AsyncSession): The database session provided by dependency injection.
 
@@ -141,7 +135,7 @@ async def search_games(
                 await activate_model(db, model_name)
 
     search_service = SearchService(settings.sentence_transformer_models[model_name])
-    games = await search_service.search_games(query, top_k, threshold, db)
+    games = await search_service.search_games(query, top_k, db)
 
     if not games:
         raise HTTPException(status_code=404, detail="No games found.")
